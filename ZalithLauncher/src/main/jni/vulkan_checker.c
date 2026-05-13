@@ -74,8 +74,11 @@ Java_com_movtery_zalithlauncher_utils_device_VulkanChecker_nativeCheckVulkan(
 
     void* vulkan_handle = NULL;
     if (nativeDir && cacheDir) {
+#ifdef ADRENO_POSSIBLE
         vulkan_handle = loadTurnipVulkan(driverPath, nativeDir, cacheDir);
-    } else {
+#endif
+    }
+    if (!vulkan_handle) {
         vulkan_handle = dlopen("libvulkan.so", RTLD_NOW | RTLD_LOCAL);
     }
 
