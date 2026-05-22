@@ -18,10 +18,10 @@
 
 package com.movtery.zalithlauncher.game.version.installed
 
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.game.launch.LogName
 import com.movtery.zalithlauncher.game.path.getVersionsHome
 import com.movtery.zalithlauncher.game.version.installed.utils.parseJsonToVersionInfo
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.utils.logging.Logger.lDebug
 import com.movtery.zalithlauncher.utils.logging.Logger.lError
 import com.movtery.zalithlauncher.utils.logging.Logger.lInfo
@@ -218,17 +218,17 @@ object VersionsManager {
     /**
      * @return 获取 Zalith 启动器版本标识文件夹
      */
-    fun getZalithVersionPath(version: Version) = File(version.getVersionPath(), InfoDistributor.LAUNCHER_IDENTIFIER)
+    fun getZalithVersionPath(version: Version) = File(version.getVersionPath(), BuildKeys.LAUNCHER_IDENTIFIER)
 
     /**
      * @return 通过目录获取 Zalith 启动器版本标识文件夹
      */
-    fun getZalithVersionPath(folder: File) = File(folder, InfoDistributor.LAUNCHER_IDENTIFIER)
+    fun getZalithVersionPath(folder: File) = File(folder, BuildKeys.LAUNCHER_IDENTIFIER)
 
     /**
      * @return 通过名称获取 Zalith 启动器版本标识文件夹
      */
-    fun getZalithVersionPath(name: String) = File(getVersionPath(name), InfoDistributor.LAUNCHER_IDENTIFIER)
+    fun getZalithVersionPath(name: String) = File(getVersionPath(name), BuildKeys.LAUNCHER_IDENTIFIER)
 
     /**
      * @return 游戏的上一次运行日志

@@ -20,6 +20,7 @@ package com.movtery.zalithlauncher.game.launch
 
 import androidx.collection.ArrayMap
 import com.movtery.zalithlauncher.BuildConfig
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.bridge.LoggerBridge
 import com.movtery.zalithlauncher.game.account.Account
 import com.movtery.zalithlauncher.game.account.isAuthServerAccount
@@ -36,7 +37,6 @@ import com.movtery.zalithlauncher.game.version.installed.Version
 import com.movtery.zalithlauncher.game.version.installed.VersionInfo
 import com.movtery.zalithlauncher.game.version.installed.getGameManifest
 import com.movtery.zalithlauncher.game.versioninfo.models.GameManifest
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.path.LibPath
 import com.movtery.zalithlauncher.path.PathManager
 import com.movtery.zalithlauncher.ui.screens.content.elements.QuickPlay
@@ -209,7 +209,7 @@ class LaunchArgs(
         }
         argsList.add("-Dlog4j.configurationFile=${configFilePath.absolutePath}")
         argsList.add("-Dminecraft.client.jar=${clientJar.absolutePath}")
-        argsList.add("-Dminecraft.launcher.brand=${InfoDistributor.LAUNCHER_NAME}")
+        argsList.add("-Dminecraft.launcher.brand=${BuildKeys.LAUNCHER_NAME}")
         argsList.add("-Dminecraft.launcher.version=${BuildConfig.VERSION_NAME}")
 
         return argsList
@@ -407,7 +407,7 @@ class LaunchArgs(
     }
 
     private fun setLauncherInfo(verArgMap: MutableMap<String, String>) {
-        verArgMap["launcher_name"] = InfoDistributor.LAUNCHER_NAME
+        verArgMap["launcher_name"] = BuildKeys.LAUNCHER_NAME
         verArgMap["launcher_version"] = BuildConfig.VERSION_NAME
         verArgMap["version_type"] = version.getCustomInfo()
             .takeIf { it.isNotEmptyOrBlank() }

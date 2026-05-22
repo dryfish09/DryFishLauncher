@@ -18,9 +18,9 @@
 
 package com.movtery.zalithlauncher.game.account.offline
 
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.game.account.Account
 import com.movtery.zalithlauncher.game.account.wardrobe.SkinModelType
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.utils.logging.Logger.lDebug
 import com.movtery.zalithlauncher.utils.logging.Logger.lError
 import com.movtery.zalithlauncher.utils.logging.Logger.lInfo
@@ -66,8 +66,8 @@ import java.util.concurrent.TimeUnit
  */
 class OfflineYggdrasilServer(
     private val port: Int = 0,
-    val serverName: String = "${InfoDistributor.LAUNCHER_IDENTIFIER}_Offline",
-    val implementationName: String = InfoDistributor.LAUNCHER_SHORT_NAME,
+    val serverName: String = "${BuildKeys.LAUNCHER_IDENTIFIER}_Offline",
+    val implementationName: String = BuildKeys.LAUNCHER_SHORT_NAME,
     val implementationVersion: String = "1.0"
 ) {
     private val charactersByUuid = ConcurrentHashMap<String, Character>()

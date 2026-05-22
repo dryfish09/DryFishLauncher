@@ -31,8 +31,8 @@ import android.view.KeyEvent
 import android.widget.Toast
 import com.google.gson.GsonBuilder
 import com.movtery.zalithlauncher.BuildConfig
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.R
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.utils.device.Architecture
 import com.movtery.zalithlauncher.utils.logging.Logger.lDebug
 import com.movtery.zalithlauncher.utils.logging.Logger.lError
@@ -457,7 +457,7 @@ fun writeCrashFile(
 ) {
     runCatching {
         PrintStream(file).use { stream ->
-            stream.append("================ ${InfoDistributor.LAUNCHER_IDENTIFIER} Crash Report ================\n")
+            stream.append("================ ${BuildKeys.LAUNCHER_IDENTIFIER} Crash Report ================\n")
             stream.append("- Time: ${DateFormat.getDateTimeInstance().format(Date())}\n")
             stream.append("- Device: ${Build.PRODUCT} ${Build.MODEL}\n")
             stream.append("- Arch: ${Architecture.archAsString(Architecture.getDeviceArchitecture())}\n")

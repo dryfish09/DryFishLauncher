@@ -10,7 +10,11 @@ plugins {
 
 buildscript {
     repositories {
+        maven { url = uri("https://jitpack.io") }
         google()
         mavenCentral()
+    }
+    dependencies {
+        classpath(libs.buildkeys)
     }
 }

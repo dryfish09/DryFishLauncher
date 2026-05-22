@@ -93,10 +93,10 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil3.compose.AsyncImage
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.R
 import com.movtery.zalithlauncher.game.version.installed.Version
 import com.movtery.zalithlauncher.game.version.installed.VersionFolders
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.ui.base.BaseScreen
 import com.movtery.zalithlauncher.ui.components.CardTitleLayout
 import com.movtery.zalithlauncher.ui.components.EdgeDirection
@@ -277,7 +277,7 @@ class ScreenshotsManageViewModel @Inject constructor(
         file: File
     ) {
         val fileName = file.name
-        val relativePath = Environment.DIRECTORY_PICTURES + "/" + InfoDistributor.LAUNCHER_IDENTIFIER + "/"
+        val relativePath = Environment.DIRECTORY_PICTURES + "/" + BuildKeys.LAUNCHER_IDENTIFIER + "/"
 
         //如果是已存在的文件，则Uri不为null
         val existingUri = queryExistingUri(resolver, fileName, relativePath)

@@ -20,12 +20,12 @@ package com.movtery.zalithlauncher.game.account.auth_server
 
 import android.content.Context
 import com.google.gson.Gson
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.R
 import com.movtery.zalithlauncher.game.account.Account
 import com.movtery.zalithlauncher.game.account.auth_server.models.AuthRequest
 import com.movtery.zalithlauncher.game.account.auth_server.models.AuthResult
 import com.movtery.zalithlauncher.game.account.auth_server.models.Refresh
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.path.GLOBAL_CLIENT
 import com.movtery.zalithlauncher.utils.logging.Logger.lDebug
 import com.movtery.zalithlauncher.utils.logging.Logger.lError
@@ -85,7 +85,7 @@ class AuthServerApi(private var baseUrl: String) {
             password = password,
             agent = agent,
             requestUser = true,
-            clientToken = InfoDistributor.LAUNCHER_NAME.toUuidStr().replace("-", "")
+            clientToken = BuildKeys.LAUNCHER_NAME.toUuidStr().replace("-", "")
         )
 
         val data = Gson().toJson(authRequest)

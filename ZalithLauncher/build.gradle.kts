@@ -9,6 +9,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlinx-serialization")
     id("kotlin-parcelize")
+    id("com.movtery.buildkeys")
 }
 
 val zalithPackageName = "com.movtery.zalithlauncher"
@@ -24,8 +25,6 @@ val defaultOAuthClientID = project.findProperty("oauth_client_id") as? String
 val defaultStorePassword = project.findProperty("default_store_password") as? String ?: error("The \"default_store_password\" property is not set in gradle.properties.")
 val defaultKeyPassword = project.findProperty("default_key_password") as? String ?: error("The \"default_key_password\" property is not set in gradle.properties.")
 val defaultCurseForgeApiKey = project.findProperty("curseforge_api_key") as? String
-
-val generatedZalithDir = file("$buildDir/generated/source/zalith/java")
 
 fun getKeyFromLocal(envKey: String, fileName: String? = null, default: String? = null): String {
     val key = System.getenv(envKey)
@@ -84,8 +83,6 @@ android {
             signingConfig = signingConfigs.getByName("debugBuild")
         }
     }
-
-    sourceSets["main"].java.srcDirs(generatedZalithDir)
 
     androidComponents {
         onVariants { variant ->
@@ -174,48 +171,13 @@ kotlin {
     }
 }
 
-fun generateJavaClass(
-    sourceOutputDir: File,
-    packageName: String,
-    className: String,
-    constantList: List<String>
-) {
-    val outputDir = File(sourceOutputDir, packageName.replace(".", "/"))
-    outputDir.mkdirs()
-    val javaFile = File(outputDir, "$className.java")
-    javaFile.writeText(
-        """
-        |/**
-        | * Automatically generated file. DO NOT MODIFY
-        | */
-        |package $packageName;
-        |
-        |public class $className {
-        |${constantList.joinToString("\n") { "\t$it" }}
-        |}
-        """.trimMargin()
-    )
-    println("Generated Java file: ${javaFile.absolutePath}")
-}
-
-tasks.register("generateInfoDistributor") {
-    doLast {
-        fun String.toStatement(type: String = "String", variable: String) = "public static final $type $variable = $this;"
-
-        val constantList = listOf(
-            "\"${getKeyFromLocal("OAUTH_CLIENT_ID", ".oauth_client_id.txt", defaultOAuthClientID)}\"".toStatement(variable = "OAUTH_CLIENT_ID"),
-            "\"$launcherAPPName\"".toStatement(variable = "LAUNCHER_NAME"),
-            "\"$launcherName\"".toStatement(variable = "LAUNCHER_IDENTIFIER"),
-            "\"$launcherShortName\"".toStatement(variable = "LAUNCHER_SHORT_NAME"),
-            "\"$launcherUrl\"".toStatement(variable = "URL_HOME"),
-            "\"${getKeyFromLocal("CURSEFORGE_API_KEY", ".curseforge_api.txt", defaultCurseForgeApiKey)}\"".toStatement(variable = "CURSEFORGE_API")
-        )
-        generateJavaClass(generatedZalithDir, "$zalithPackageName.info", "InfoDistributor", constantList)
-    }
-}
-
-tasks.named("preBuild") {
-    dependsOn("generateInfoDistributor")
+buildKeys {
+    string("OAUTH_CLIENT_ID", getKeyFromLocal("OAUTH_CLIENT_ID", ".oauth_client_id.txt", defaultOAuthClientID), true)
+    string("LAUNCHER_NAME", launcherAPPName, true)
+    string("LAUNCHER_IDENTIFIER", launcherName, true)
+    string("LAUNCHER_SHORT_NAME", launcherShortName, true)
+    string("URL_HOME", launcherUrl, true)
+    string("CURSEFORGE_API", getKeyFromLocal("CURSEFORGE_API_KEY", ".curseforge_api.txt", defaultCurseForgeApiKey), true)
 }
 
 dependencies {

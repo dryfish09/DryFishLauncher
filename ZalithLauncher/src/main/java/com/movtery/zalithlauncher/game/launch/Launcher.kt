@@ -25,6 +25,7 @@ import android.system.Os
 import android.util.ArrayMap
 import androidx.annotation.CallSuper
 import androidx.compose.ui.unit.IntSize
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.bridge.LoggerBridge
 import com.movtery.zalithlauncher.bridge.ZLBridge
 import com.movtery.zalithlauncher.bridge.ZLNativeInvoker
@@ -34,7 +35,6 @@ import com.movtery.zalithlauncher.game.path.getGameHome
 import com.movtery.zalithlauncher.game.plugin.ffmpeg.FFmpegPluginManager
 import com.movtery.zalithlauncher.game.plugin.natives.NativePluginManager
 import com.movtery.zalithlauncher.game.plugin.renderer.RendererPluginManager
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.path.LibPath
 import com.movtery.zalithlauncher.path.PathManager
 import com.movtery.zalithlauncher.setting.AllSettings
@@ -182,7 +182,7 @@ abstract class Launcher(
             put("com.sun.jndi.rmi.object.trustURLCodebase", "false")
             put("com.sun.jndi.cosnaming.object.trustURLCodebase", "false")
 
-            put("net.minecraft.clientmodname", InfoDistributor.LAUNCHER_NAME)
+            put("net.minecraft.clientmodname", BuildKeys.LAUNCHER_NAME)
 
             // fml
             put("fml.earlyprogresswindow", "false")

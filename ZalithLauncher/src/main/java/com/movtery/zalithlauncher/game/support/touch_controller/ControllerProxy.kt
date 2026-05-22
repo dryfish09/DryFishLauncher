@@ -21,8 +21,8 @@ package com.movtery.zalithlauncher.game.support.touch_controller
 import android.content.Context
 import android.os.Vibrator
 import android.system.Os
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.bridge.LoggerBridge
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.utils.logging.Logger.lWarning
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -48,8 +48,8 @@ object ControllerProxy {
     ) {
         if (proxyClient.value == null) {
             try {
-                val transport = UnixSocketTransport(InfoDistributor.LAUNCHER_NAME)
-                Os.setenv("TOUCH_CONTROLLER_PROXY_SOCKET", InfoDistributor.LAUNCHER_NAME, true)
+                val transport = UnixSocketTransport(BuildKeys.LAUNCHER_NAME)
+                Os.setenv("TOUCH_CONTROLLER_PROXY_SOCKET", BuildKeys.LAUNCHER_NAME, true)
                 val client = LauncherProxyClient(
                     transport = transport,
                     capabilities = setOf(PlatformCapability.TEXT_STATUS),

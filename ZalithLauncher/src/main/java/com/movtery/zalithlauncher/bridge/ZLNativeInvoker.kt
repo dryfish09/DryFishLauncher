@@ -23,15 +23,15 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import androidx.annotation.Keep
+import androidx.core.net.toUri
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.context.GlobalContext
 import com.movtery.zalithlauncher.game.launch.Launcher
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.utils.file.shareFile
 import com.movtery.zalithlauncher.utils.killProgress
 import com.movtery.zalithlauncher.utils.logging.Logger.lInfo
 import com.movtery.zalithlauncher.utils.network.openLink
 import java.io.File
-import androidx.core.net.toUri
 
 @Keep
 object ZLNativeInvoker {
@@ -110,8 +110,8 @@ object ZLNativeInvoker {
         (GlobalContext as? Activity)?.let { activity ->
             activity.runOnUiThread {
                 val clipData = when (mimeType) {
-                    "text/plain" -> ClipData.newPlainText(InfoDistributor.LAUNCHER_IDENTIFIER, data)
-                    "text/html" -> ClipData.newHtmlText(InfoDistributor.LAUNCHER_IDENTIFIER, data, data)
+                    "text/plain" -> ClipData.newPlainText(BuildKeys.LAUNCHER_IDENTIFIER, data)
+                    "text/html" -> ClipData.newHtmlText(BuildKeys.LAUNCHER_IDENTIFIER, data, data)
                     else -> null
                 }
                 clipData?.let {

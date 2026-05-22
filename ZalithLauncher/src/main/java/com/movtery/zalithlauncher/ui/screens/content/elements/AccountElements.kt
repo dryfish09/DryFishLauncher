@@ -107,6 +107,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.core.graphics.createBitmap
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.movtery.zalithlauncher.BuildKeys
 import com.movtery.zalithlauncher.R
 import com.movtery.zalithlauncher.game.account.Account
 import com.movtery.zalithlauncher.game.account.AccountType
@@ -125,7 +126,6 @@ import com.movtery.zalithlauncher.game.account.wardrobe.capeLocalRes
 import com.movtery.zalithlauncher.game.account.yggdrasil.PlayerProfile
 import com.movtery.zalithlauncher.game.account.yggdrasil.findUsing
 import com.movtery.zalithlauncher.game.account.yggdrasil.getFile
-import com.movtery.zalithlauncher.info.InfoDistributor
 import com.movtery.zalithlauncher.path.PathManager
 import com.movtery.zalithlauncher.path.URL_MINECRAFT_PURCHASE
 import com.movtery.zalithlauncher.ui.components.BaseIconTextButton
@@ -655,7 +655,7 @@ fun MicrosoftLoginTipDialog(
                     append(
                         stringResource(
                             R.string.account_supporting_microsoft_tip_hint_t3,
-                            InfoDistributor.LAUNCHER_NAME
+                            BuildKeys.LAUNCHER_NAME
                         )
                     )
                     append(stringResource(R.string.account_supporting_microsoft_tip_hint_t4))
