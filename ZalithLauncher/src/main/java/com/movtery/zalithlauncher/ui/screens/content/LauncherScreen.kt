@@ -298,7 +298,9 @@ private fun RightMenuContent(
                     VersionManagerLayout(
                         isRefreshing = isRefreshing,
                         version = version,
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth(),
                         swapToVersionManage = toVersionManageScreen,
                         openListMenu = { showList = true },
                     )
