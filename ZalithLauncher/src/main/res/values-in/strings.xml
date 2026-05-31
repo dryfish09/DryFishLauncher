@@ -1211,4 +1211,8 @@
     <string name="game_vulkan_check_missing_features">Fitur yang tidak tersedia:</string>
     <string name="game_vulkan_check_unsupp">Perangkat kamu tidak bisa menjalankan Minecraft 26.2+ dengan Vulkan</string>
     <string name="game_vulkan_check_supp">Perangkat kamu bisa menjalankan Minecraft 26.2+ dengan Vulkan</string>
+    <string name="cape_name_builder">Builder</string>
+    <string name="cape_name_crafter">Crafter</string>
+    <string name="settings_title_blur">Efek Blur</string>
+    <string name="settings_launcher_background_blur_summary">Atur efek blur latar belakang. Opsi ini dapat mengurangi performa perangkat.</string>
 </resources>
