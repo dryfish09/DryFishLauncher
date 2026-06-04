@@ -77,8 +77,8 @@
     <string name="error_network_unreachable">Jaringan tidak tersedia</string>
     <string name="error_connection_failed">Gagal terhubung ke server</string>
     <string name="error_parse_failed">Gagal mengurai data</string>
-    <string name="error_unauthorized">(%s) Tidak diotorisasi</string>
-    <string name="error_notfound">(%s) Sumber daya tidak ditemukan</string>
+    <string name="error_unauthorized">(%s) Silakan periksa kredensial Anda dan coba lagi</string>
+    <string name="error_notfound">(%s) Sumber daya yang diminta tidak ditemukan</string>
     <string name="error_client_error">(%s) Kesalahan klien</string>
     <string name="error_unknown">Kesalahan tidak diketahui: %s</string>
     <string name="splash_screen_unpack_desc">Launcher perlu menginstal file ini untuk memastikan Minecraft berjalan dengan benar. Mereka termasuk dalam aplikasi dan harus diekstrak terlebih dahulu. Klik tombol di bawah ini untuk memulai ekstraksi dan pembaruan.</string>
@@ -1215,4 +1215,18 @@
     <string name="cape_name_crafter">Crafter</string>
     <string name="settings_title_blur">Efek Blur</string>
     <string name="settings_launcher_background_blur_summary">Atur efek blur latar belakang. Opsi ini dapat mengurangi performa perangkat.</string>
+    <string name="error_bad_request">(%s) Server tidak dapat memahami permintaan tersebut</string>
+    <string name="error_forbidden">(%s) Anda tidak memiliki izin untuk mengakses sumber daya ini</string>
+    <string name="error_not_acceptable">(%s) Permintaan tidak dapat diterima</string>
+    <string name="error_request_timeout">(%s) Server kehabisan waktu saat menunggu permintaan</string>
+    <string name="error_conflict">(%s) Permintaan bertentangan dengan keadaan saat ini</string>
+    <string name="error_gone">(%s) Sumber daya yang diminta tidak lagi tersedia</string>
+    <string name="error_too_many_requests">(%s) Silakan coba lagi nanti</string>
+    <string name="error_internal_server_error">(%s) Server mengalami kesalahan yang tidak terduga</string>
+    <string name="error_bad_gateway">(%s) Server menerima respons yang tidak valid dari server lain</string>
+    <string name="error_service_unavailable">(%s) Server sementara tidak dapat menangani permintaan</string>
+    <string name="error_gateway_timeout">(%s) Server tidak menerima respons tepat waktu</string>
+    <string name="game_menu_option_hotbar_double_click">Ketuk dua kali untuk menukar item dengan off-hand</string>
+    <string name="game_menu_option_hotbar_long_click">Tekan lama untuk menjatuhkan item terpilih</string>
+    <string name="game_menu_option_hotbar_long_click_delay">Jeda tekan lama hotbar</string>
 </resources>
