@@ -23,6 +23,7 @@ import com.movtery.zalithlauncher.game.download.assets.platform.PlatformClasses
 import com.movtery.zalithlauncher.game.download.assets.platform.PlatformDisplayLabel
 import com.movtery.zalithlauncher.game.download.assets.platform.PlatformFilterCode
 import com.movtery.zalithlauncher.game.download.assets.platform.PlatformProject
+import com.movtery.zalithlauncher.game.download.assets.platform.UnsupportedClassesException
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -243,7 +244,7 @@ class ModrinthSingleProject(
 
     override fun platformId(): String = id
 
-    override fun platformClasses(defaultClasses: PlatformClasses): PlatformClasses = projectType.platform
+    override fun platformClasses(defaultClasses: PlatformClasses): PlatformClasses = projectType.platform ?: defaultClasses
 
     override fun platformSlug(): String = slug
 
@@ -267,6 +268,10 @@ class ModrinthSingleProject(
         return modloaders?.sortedWith { o1, o2 -> o1.index() - o2.index() }
     }
 
+    override fun checkClasses() {
+        if (projectType.platform == null) throw UnsupportedClassesException(projectType.name)
+    }
+
     override fun platformCategories(classes: PlatformClasses): List<PlatformFilterCode>? {
         return categories.take(4) //没有主要类别，则展示前4个
             .mapNotNull { string ->
@@ -278,8 +283,9 @@ class ModrinthSingleProject(
     }
 
     override fun platformUrls(defaultClasses: PlatformClasses): PlatformProject.Urls {
+        val classes = projectType.platform ?: defaultClasses
         return PlatformProject.Urls(
-            projectUrl = "https://modrinth.com/${projectType.platform.modrinth!!.facetValue()}/${slug}",
+            projectUrl = "https://modrinth.com/${classes.modrinth!!.facetValue()}/${slug}",
             sourceUrl = sourceUrl,
             issuesUrl = issuesUrl,
             wikiUrl = wikiUrl

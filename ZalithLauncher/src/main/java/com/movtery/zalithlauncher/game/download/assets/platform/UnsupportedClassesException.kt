@@ -16,26 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/gpl-3.0.txt>.
  */
 
-package com.movtery.zalithlauncher.game.download.assets.platform.modrinth.models
+package com.movtery.zalithlauncher.game.download.assets.platform
 
-import com.movtery.zalithlauncher.game.download.assets.platform.PlatformClasses
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-@Serializable
-enum class ModrinthProjectType(val platform: PlatformClasses?) {
-    @SerialName("mod")
-    MOD(PlatformClasses.MOD),
-
-    @SerialName("modpack")
-    MODPACK(PlatformClasses.MOD_PACK),
-
-    @SerialName("resourcepack")
-    RESOURCEPACK(PlatformClasses.RESOURCE_PACK),
-
-    @SerialName("shader")
-    SHADER(PlatformClasses.SHADERS),
-
-    @SerialName("minecraft_java_server")
-    SERVER(null),
-}
+/**
+ * 不受支持的项目类别
+ */
+class UnsupportedClassesException(classes: Any?): IllegalArgumentException("Unsupported classes: $classes")

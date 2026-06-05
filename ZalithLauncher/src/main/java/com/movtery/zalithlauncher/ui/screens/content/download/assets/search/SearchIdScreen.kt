@@ -48,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -61,6 +62,7 @@ import com.movtery.zalithlauncher.game.download.assets.mapExceptionToMessage
 import com.movtery.zalithlauncher.game.download.assets.platform.Platform
 import com.movtery.zalithlauncher.game.download.assets.platform.PlatformClasses
 import com.movtery.zalithlauncher.game.download.assets.platform.PlatformProject
+import com.movtery.zalithlauncher.game.download.assets.platform.UnsupportedClassesException
 import com.movtery.zalithlauncher.game.download.assets.platform.getProjectByVersion
 import com.movtery.zalithlauncher.game.download.assets.platform.isAllNull
 import com.movtery.zalithlauncher.game.download.assets.utils.ModTranslations
@@ -101,8 +103,12 @@ private sealed interface SearchIdOperation {
         val mcMod: ModTranslations.McMod?,
         val mod: ModTranslations,
     ) : SearchIdOperation
+
     /** 未找到该项目 */
     data object NotFound : SearchIdOperation
+    /** 项目类别不受支持 */
+    data object Unsupported : SearchIdOperation
+
     /** 获取过程中出现异常 */
     data class Error(val message: Int, val args: Array<Any>? = null) : SearchIdOperation {
         override fun equals(other: Any?): Boolean {
@@ -126,7 +132,7 @@ private sealed interface SearchIdOperation {
 }
 
 private class SearchIdViewModel: ViewModel() {
-    //fixme: 默认视为模组，通常情况下，获取到的项目会带有类型，需要过滤类型
+    //fixme: 默认视为模组，通常情况下，获取到的项目会带有类别
     val defaultClasses = PlatformClasses.MOD
 
     var projectId by mutableStateOf("")
@@ -150,7 +156,9 @@ private class SearchIdViewModel: ViewModel() {
                     projectId = id,
                     platform = platform0
                 )
-                val translations = defaultClasses.getTranslations()
+                project.checkClasses()
+                val classes = project.platformClasses(defaultClasses)
+                val translations = classes.getTranslations()
                 operation = SearchIdOperation.Result(
                     project = project,
                     mcMod = project.getMcMod(translations),
@@ -162,6 +170,7 @@ private class SearchIdViewModel: ViewModel() {
                         Logger.debug(TAG, "The search task has been cancelled.")
                         SearchIdOperation.None
                     }
+                    is UnsupportedClassesException -> SearchIdOperation.Unsupported
                     is NotFoundException -> SearchIdOperation.NotFound
                     is ClientRequestException -> {
                         if (e.response.status == HttpStatusCode.NotFound) {
@@ -292,17 +301,10 @@ private fun ContentResult(
     ) {
         when (operation) {
             is SearchIdOperation.None -> {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Icon(
-                        modifier = Modifier.size(84.dp),
-                        painter = painterResource(R.drawable.ic_search),
-                        contentDescription = null
-                    )
-                    Text(text = stringResource(R.string.download_assets_id_tip))
-                }
+                IconTip(
+                    icon = painterResource(R.drawable.ic_search),
+                    text = stringResource(R.string.download_assets_id_tip)
+                )
             }
             is SearchIdOperation.Loading -> {
                 LinearWavyProgressIndicator(
@@ -318,20 +320,20 @@ private fun ContentResult(
                     defaultClasses = defaultClasses,
                     onView = onView,
                     openLink = openLink,
+                    contentPadding = contentPadding,
                 )
             }
             is SearchIdOperation.NotFound -> {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    Icon(
-                        modifier = Modifier.size(84.dp),
-                        painter = painterResource(R.drawable.ic_box),
-                        contentDescription = null
-                    )
-                    Text(text = stringResource(R.string.download_assets_id_not_found))
-                }
+                IconTip(
+                    icon = painterResource(R.drawable.ic_box),
+                    text = stringResource(R.string.download_assets_id_not_found)
+                )
+            }
+            is SearchIdOperation.Unsupported -> {
+                IconTip(
+                    icon = painterResource(R.drawable.ic_box),
+                    text = stringResource(R.string.download_assets_id_unsupported)
+                )
             }
             is SearchIdOperation.Error -> {
                 Box(modifier.padding(all = 12.dp)) {
@@ -349,6 +351,24 @@ private fun ContentResult(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun IconTip(
+    icon: Painter,
+    text: String,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Icon(
+            modifier = Modifier.size(68.dp),
+            painter = icon,
+            contentDescription = null
+        )
+        Text(text = text)
     }
 }
 
@@ -375,7 +395,7 @@ private fun ResultLayout(
     val classes = remember(project) { project.platformClasses(defaultClasses) }
     val categories = remember(project, classes) { project.platformCategories(classes) }
 
-    val urls = remember { project.platformUrls(defaultClasses) }
+    val urls = remember { project.platformUrls(classes) }
     val screenshots = remember { project.platformScreenshots() }
 
     LazyColumn(
@@ -385,9 +405,7 @@ private fun ResultLayout(
     ) {
         item {
             ResultProjectLayout(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 6.dp),
+                modifier = Modifier.fillMaxWidth(),
                 platform = platform,
                 title = mcmod.getMcmodTitle(title, context),
                 description = description,

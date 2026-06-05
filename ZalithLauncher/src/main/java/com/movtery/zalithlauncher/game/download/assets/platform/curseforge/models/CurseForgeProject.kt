@@ -23,6 +23,7 @@ import com.movtery.zalithlauncher.game.download.assets.platform.PlatformClasses
 import com.movtery.zalithlauncher.game.download.assets.platform.PlatformDisplayLabel
 import com.movtery.zalithlauncher.game.download.assets.platform.PlatformFilterCode
 import com.movtery.zalithlauncher.game.download.assets.platform.PlatformProject
+import com.movtery.zalithlauncher.game.download.assets.platform.UnsupportedClassesException
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -55,6 +56,11 @@ class CurseForgeProject(
 
     override fun platformModLoaders(): List<PlatformDisplayLabel>? {
         return data.platformModLoaders()
+    }
+
+    override fun checkClasses() {
+        val classId = data.classId
+        if (CurseForgeClassID.entries.none { id -> classId == id.classID }) throw UnsupportedClassesException(classId)
     }
 
     override fun platformCategories(classes: PlatformClasses): List<PlatformFilterCode>? {

@@ -78,6 +78,11 @@ interface PlatformProject {
     fun platformModLoaders(): List<PlatformDisplayLabel>?
 
     /**
+     * 检查项目类别是否受支持
+     */
+    fun checkClasses()
+
+    /**
      * 在平台上标注的类别信息
      */
     fun platformCategories(classes: PlatformClasses): List<PlatformFilterCode>?
