@@ -33,8 +33,10 @@ jobs:
       - name: Organize Artifacts
         run: |
           mkdir -p ./apks
+          mkdir -p ./mappings
           
           find ./artifacts -name "*.apk" -type f -exec cp {} ./apks/ \;
+          find ./artifacts -name "mapping.txt" -type f -exec cp {} ./mappings/ \;
           
           # 检查是否有APK文件
           if [ -z "$(ls -A ./apks/)" ]; then
@@ -42,11 +44,23 @@ jobs:
             exit 1
           fi
           
+          # 重命名映射文件 区分架构
+          for mapping in ./mappings/*.txt; do
+            if [ -f "$mapping" ]; then
+              dirname=$(basename $(dirname "$mapping"))
+              arch=$(echo "$dirname" | sed 's/mapping (//' | sed 's/)//')
+              mv "$mapping" "./mappings/mapping-$arch.txt"
+            fi
+          done
+          
           echo "Found $(ls ./apks/ | wc -l) APK file(s)"
+          echo "Found $(ls ./mappings/ | wc -l) Mapping file(s)"
 
       - name: Upload To Release
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.event.release.tag_name }}
-          files: ./apks/*.apk
+          files: |
+            ./apks/*.apk
+            ./mappings/*.txt
           fail_on_unmatched_files: true
