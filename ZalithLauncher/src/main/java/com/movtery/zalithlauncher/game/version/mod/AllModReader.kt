@@ -18,6 +18,7 @@
 
 package com.movtery.zalithlauncher.game.version.mod
 
+import android.util.Log
 import com.movtery.zalithlauncher.utils.logging.Logger
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -109,6 +110,8 @@ class AllModReader(val modsDir: File) {
                         pack(
                             reader.fromLocal(file)
                         )
+                    }.onFailure { e ->
+                        Log.d(TAG, "Exception encountered while parsing the mod", e)
                     }.getOrNull()
                     //返回null，继续使用下一个解析器
                 } ?: throw IllegalArgumentException("No matching reader for extension: $extension")

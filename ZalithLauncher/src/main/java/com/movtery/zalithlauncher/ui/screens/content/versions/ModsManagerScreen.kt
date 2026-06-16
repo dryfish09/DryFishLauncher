@@ -1434,9 +1434,7 @@ private fun LocalModInfoTooltip(
                         Text(text = stringResource(R.string.mods_manage_version, version))
                     }
                     //作者
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
+                    Row {
                         Text(text = stringResource(R.string.mods_manage_authors))
                         FlowRow(
                             modifier = Modifier.weight(1f, fill = false),
@@ -1449,9 +1447,7 @@ private fun LocalModInfoTooltip(
                     }
                     //模组描述
                     mod.description?.takeIf { it.isNotEmptyOrBlank() }?.let { description ->
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
+                        Row {
                             Text(text = stringResource(R.string.mods_manage_description))
                             Text(
                                 modifier = Modifier.weight(1f, fill = false),
